@@ -80,13 +80,13 @@ class MusicResult:
 
 #https://api.chunirec.net/2.0/records/showall.json
 class NormalRecord:
-    def __init__(self, user_id = None):
+    def __init__(self, user_name = None):
         payload = {
                 'region': 'jp2',
                 'token': TOKEN
         }
-        if user_id is not None:
-            payload['user_id'] = user_id
+        if user_name is not None:
+            payload['user_name'] = user_name
         r = requests.get('https://api.chunirec.net/2.0/records/showall.json', params=payload)
         self.records = [MusicResult(data) for data in json.loads(r.text)['records']]
 
@@ -97,13 +97,13 @@ class NormalRecord:
 
 #https://api.chunirec.net/2.0/records/rating_data.json
 class RatingRecord:
-    def __init__(self, user_id = None):
+    def __init__(self, user_name = None):
         payload = {
                 'region': 'jp2',
                 'token': TOKEN
         }
-        if user_id is not None:
-            payload['user_id'] = user_id
+        if user_name is not None:
+            payload['user_name'] = user_name
         r = requests.get('https://api.chunirec.net/2.0/records/rating_data.json', params=payload)
         self.bests = [MusicResult(data) for data in json.loads(r.text)['best']['entries']]
         self.recent = [MusicResult(data) for data in json.loads(r.text)['recent']['entries']]
@@ -114,7 +114,7 @@ class RatingRecord:
 
 def draw_chart(music_dict, results, filename):
     N = len(results)
-    fig = plt.figure(figsize=(10, 10 / 30 * N))
+    fig = plt.figure(figsize=(20, 10 / 30 * N))
     fig.subplots_adjust(left=0.35)
     ax = fig.add_subplot(1, 1, 1)
     ratings = [r.rating for r in results]
